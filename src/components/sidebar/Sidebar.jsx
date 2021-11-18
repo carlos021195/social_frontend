@@ -56,7 +56,6 @@ export default function Sidebar() {
         </ul>
         <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
-        
       </div>
     </div>
   );

@@ -14,7 +14,9 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`http://localhost:8800/api/users?username=${username}`);
+      const res = await axios.get(
+        `http://localhost:8800/api/users?username=${username}`
+      );
       setUser(res.data);
     };
     fetchUser();
@@ -24,7 +26,6 @@ export default function Profile() {
     <>
       <Topbar />
       <div className="profile">
-        <Sidebar />
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">

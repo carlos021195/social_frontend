@@ -19,7 +19,9 @@ export default function Post({ post }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`http://localhost:8800/api/users?userId=${post.userId}`);
+      const res = await axios.get(
+        `http://localhost:8800/api/users?userId=${post.userId}`
+      );
       setUser(res.data);
     };
     fetchUser();
@@ -27,7 +29,9 @@ export default function Post({ post }) {
 
   const likeHandler = () => {
     try {
-      axios.put("http://localhost:8800/api/posts/" + post._id + "/like", { userId: currentUser._id });
+      axios.put("http://localhost:8800/api/posts/" + post._id + "/like", {
+        userId: currentUser._id,
+      });
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
@@ -63,13 +67,13 @@ export default function Post({ post }) {
           <div className="postBottomLeft">
             <img
               className="likeIcon"
-              src={`${PF}like.png`}
+              src="https://img.icons8.com/external-sbts2018-blue-sbts2018/58/000000/external-like-social-media-basic-1-sbts2018-blue-sbts2018.png"
               onClick={likeHandler}
               alt=""
             />
             <img
               className="likeIcon"
-              src={`${PF}heart.png`}
+              src="https://img.icons8.com/color/48/000000/filled-like.png"
               onClick={likeHandler}
               alt=""
             />
