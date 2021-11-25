@@ -5,9 +5,22 @@ import "./feed.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Feed({ username }) {
+export default function Feed({ username, myfeed=false }) {
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
+
+  const getPosts = async () => {
+    const res = username
+        ? await axios.get("http://localhost:8800/api/posts/profile/" + username)
+        : await axios.get(
+            "http://localhost:8800/api/posts/timeline/" + user._id
+          );
+    setPosts(
+      res.data.sort((p1, p2) => {
+        return new Date(p2.createdAt) - new Date(p1.createdAt);
+      })
+    );
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -28,7 +41,7 @@ export default function Feed({ username }) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {(!username || username === user.username) && <Share />}
+        {(!username || username === user.username) && <Share getPosts={getPosts} />}
         {posts.map((p) => (
           <Post key={p._id} post={p} />
         ))}

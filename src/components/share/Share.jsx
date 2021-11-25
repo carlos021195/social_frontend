@@ -10,17 +10,21 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
-export default function Share() {
+export default function Share({getPosts}) {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const desc = useRef();
+  const [desc,setDesc] = useState('');
   const [file, setFile] = useState(null);
+
+  const handleChange = (e) => {
+    setDesc(e.target.value);
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const newPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc: desc
     };
     if (file) {
       const data = new FormData();
@@ -28,15 +32,15 @@ export default function Share() {
       data.append("name", fileName);
       data.append("file", file);
       newPost.img = fileName;
-      console.log(newPost);
       try {
         await axios.post("http://localhost:8800/api/upload", data);
       } catch (err) {}
     }
     try {
       await axios.post("http://localhost:8800/api/posts", newPost);
-      window.location.reload();
     } catch (err) {}
+    getPosts();
+    setDesc("");
   };
 
   return (
@@ -55,7 +59,8 @@ export default function Share() {
           <input
             placeholder={"What's in your mind " + user.username + "?"}
             className="shareInput"
-            ref={desc}
+            value={desc}
+            onChange={handleChange}
           />
         </div>
         <hr className="shareHr" />
