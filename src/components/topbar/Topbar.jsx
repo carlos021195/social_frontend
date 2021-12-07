@@ -1,12 +1,39 @@
 import "./topbar.css";
-import { Search, Person, Chat, Notifications } from "@material-ui/icons";
+import { Search, Person, Chat, Notifications, SettingsInputComponentTwoTone } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
+import SearchResults from "./SearchResults";
 
 export default function Topbar() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [resultComponent, setResultComponent] = useState();
+  const [searchResults, setSearchResults] = useState();
+
+  const clear = () => {
+    setSearchResults();
+  }
+
+  const handleChange = async (e) => {
+    if (e.target.value.length>0){
+      const res = await axios.get(
+        "http://localhost:8800/api/users/" + e.target.value + "/search"
+      );
+      console.log(res.data);
+      setSearchResults(<SearchResults onBlur={clear} className="search-results" results={res.data}/>);
+    }
+    else {
+      clear()
+    }
+    //Need to render results or no user found
+  }
+
+  useEffect(()=>{
+    setResultComponent(searchResults)
+  }, [resultComponent, searchResults])
+
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -18,9 +45,11 @@ export default function Topbar() {
         <div className="searchbar">
           <Search className="searchIcon" />
           <input
-            placeholder="Search for friend, post or video"
+            onChange={handleChange}
+            placeholder="Search for friends"
             className="searchInput"
           />
+          {resultComponent}
         </div>
       </div>
       <div className="topbarRight">
