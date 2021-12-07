@@ -31,7 +31,8 @@
   background-color: white;
   border-radius: 30px;
   display: flex;
-  align-items: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .searchIcon {

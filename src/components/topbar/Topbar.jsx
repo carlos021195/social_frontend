@@ -49,6 +49,7 @@ export default function Topbar() {
             placeholder="Search for friends"
             className="searchInput"
           />
+          <br />
           {resultComponent}
         </div>
       </div>
