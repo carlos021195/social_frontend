@@ -5,6 +5,7 @@ import axios from "axios";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import Input from "./Input"
 
 export default function Comments({ post, comments, getComments }) {
     const { user: currentUser } = useContext(AuthContext);
@@ -36,7 +37,7 @@ export default function Comments({ post, comments, getComments }) {
         {commentList}
         <form onSubmit={submitHandler}>
         <label>
-            <input type="text" value={desc} onChange={handleChange} />
+            <Input type={"text"} desc={desc} handleChange={handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>

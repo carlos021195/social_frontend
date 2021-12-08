@@ -1,5 +1,6 @@
+import React  from "react";
 import "./topbar.css";
-import { Search, Person, Chat, Notifications, SettingsInputComponentTwoTone } from "@material-ui/icons";
+import { Search } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -45,6 +46,7 @@ export default function Topbar() {
         <div className="searchbar">
           <Search className="searchIcon" />
           <input
+            data-testid="searchInput"
             onChange={handleChange}
             placeholder="Search for friends"
             className="searchInput"
@@ -59,18 +61,7 @@ export default function Topbar() {
           <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">
-          <div className="topbarIconItem">
-            <Person />
-            <span className="topbarIconBadge">1</span>
-          </div>
-          <div className="topbarIconItem">
-            <Chat />
-            <span className="topbarIconBadge">2</span>
-          </div>
-          <div className="topbarIconItem">
-            <Notifications />
-            <span className="topbarIconBadge">1</span>
-          </div>
+          
         </div>
         <Link to={`/profile/${user.username}`}>
           <img
