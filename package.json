@@ -72,5 +72,9 @@
       "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
     }
+  },
+  "engines": {
+    "npm": ">=6.0.0",
+    "node": ">=10.0.0"
   }
 }
