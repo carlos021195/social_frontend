@@ -1,10 +1,7 @@
 //pass post id as props and get the comments for the post and display
 import "./post.css";
-import { MoreVert } from "@material-ui/icons";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { format } from "timeago.js";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Comment({ comment }) {
@@ -30,16 +27,6 @@ export default function Comment({ comment }) {
     fetchUser();
   }, [comment.userId]);
 
-  const likeHandler = () => {
-    try {
-      axios.put("https://comp586api.herokuapp.com/api/comments/" + comment._id + "/like", {
-        userId: currentUser._id,
-      },
-      headers);
-    } catch (err) {}
-    setLike(isLiked ? like - 1 : like + 1);
-    setIsLiked(!isLiked);
-  };
   console.log(comment);
   return (
     <div>

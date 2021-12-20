@@ -8,9 +8,6 @@
     position: relative;
     z-index: 9999;
 }
-.search-results{
-    
-}
 .button-container{
     display: flex;
     justify-content: space-between;

@@ -5,7 +5,6 @@ import axios from "axios";
 
 export default function Share({getPosts}) {
   const { user, token } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [desc,setDesc] = useState('');
   const headers = { headers: {"authorization" : `Bearer ${token}`} };
 
@@ -30,15 +29,6 @@ export default function Share({getPosts}) {
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img
-            className="shareProfileImg"
-            src={
-              user.profilePicture
-                ? PF + user.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-            alt=""
-          />
           <input
             placeholder={"What's in your mind " + user.username + "?"}
             className="shareInput"

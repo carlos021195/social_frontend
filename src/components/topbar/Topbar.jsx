@@ -10,7 +10,6 @@ import { logout } from "../../apiCalls";
 
 export default function Topbar() {
   const { user, token } = useContext(AuthContext);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [resultComponent, setResultComponent] = useState();
   const [searchResults, setSearchResults] = useState();
   const headers = { headers: {"authorization" : `Bearer ${token}`} }
@@ -48,7 +47,7 @@ export default function Topbar() {
     <div className="topbarContainer">
       <div className="topbarLeft">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">MataHub</span>
+          <span className="logo">SocialMedia</span>
         </Link>
       </div>
       <div className="topbarCenter">

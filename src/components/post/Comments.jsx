@@ -1,9 +1,7 @@
 //pass post id as props and get the comments for the post and display
 import "./post.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
-import { format } from "timeago.js";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Input from "./Input"
 

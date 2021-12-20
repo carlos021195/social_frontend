@@ -1,9 +1,7 @@
 import "./post.css";
-import { MoreVert } from "@material-ui/icons";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "timeago.js";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Comments from "./Comments"
 
@@ -13,7 +11,6 @@ export default function Post({ post }) {
   const [user, setUser] = useState({});
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false)
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user: currentUser, token } = useContext(AuthContext);
   const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
@@ -62,7 +59,7 @@ export default function Post({ post }) {
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
-  console.log(post.username)
+  
   return (
     <div className="post">
       <div className="postWrapper">
@@ -74,7 +71,6 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <span className="postText">{post?.desc}</span>
-          <img className="postImg" src={PF + post.img} alt="" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
