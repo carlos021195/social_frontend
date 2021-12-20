@@ -8,7 +8,7 @@ import axios from "axios";
 import SearchResults from "./SearchResults";
 import { logout } from "../../apiCalls";
 
-export default function Topbar() {
+export default function Topbar({getPosts}) {
   const { user, token } = useContext(AuthContext);
   const [resultComponent, setResultComponent] = useState();
   const [searchResults, setSearchResults] = useState();
@@ -31,7 +31,7 @@ export default function Topbar() {
         "https://comp586api.herokuapp.com/api/users/" + e.target.value + "/search", headers
       );
       console.log(res.data);
-      setSearchResults(<SearchResults onBlur={clear} className="search-results" results={res.data}/>);
+      setSearchResults(<SearchResults getPosts={getPosts} onBlur={clear} className="search-results" results={res.data}/>);
     }
     else {
       clear()

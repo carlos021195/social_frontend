@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import "./resultComponent.css"
 
-export default function ResultComponent({ result }) {
+export default function ResultComponent({ result, getPosts }) {
     const { user, token } = useContext(AuthContext);
     const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
@@ -16,10 +16,11 @@ export default function ResultComponent({ result }) {
                 },
                 headers
             );
-            console.log(res)
+            console.log(user)
         } catch (error) {
             
         }
+        getPosts()
     }
 
     const handleUnfollow = async () => {
@@ -31,10 +32,11 @@ export default function ResultComponent({ result }) {
                 },
                 headers
             );
-            console.log(res.status)
+            console.log(user)
         } catch (error) {
             
         }
+        getPosts()
     }
 
     return (

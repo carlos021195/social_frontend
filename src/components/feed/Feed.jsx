@@ -5,23 +5,9 @@ import "./feed.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Feed({ username }) {
-  const [posts, setPosts] = useState([]);
+export default function Feed({ username, getPosts, setPosts, posts }) {
   const { user, token } = useContext(AuthContext);
   const headers = { headers: {"authorization" : `Bearer ${token}`} };
-
-  const getPosts = async () => {
-    const res = username
-        ? await axios.get("https://comp586api.herokuapp.com/api/posts/profile/" + username, headers)
-        : await axios.get(
-            "https://comp586api.herokuapp.com/api/posts/timeline/" + user._id, headers
-          );
-    setPosts(
-      res.data.sort((p1, p2) => {
-        return new Date(p2.createdAt) - new Date(p1.createdAt);
-      })
-    );
-  };
 
   useEffect(() => {
     const fetchPosts = async () => {

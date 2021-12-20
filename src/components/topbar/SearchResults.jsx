@@ -1,7 +1,7 @@
 import ResultComponent from "./ResultComponent";
 
-export default function SearchResults({ results }) {
-    const resultsList = results.map(result => <ResultComponent result={result}/>)
+export default function SearchResults({ results, getPosts }) {
+    const resultsList = results.map(result => <ResultComponent key={result._id} getPosts={getPosts} result={result}/>)
 
     return (
         <div>
