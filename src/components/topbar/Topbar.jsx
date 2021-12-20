@@ -6,21 +6,30 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import SearchResults from "./SearchResults";
+import { logout } from "../../apiCalls";
 
 export default function Topbar() {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [resultComponent, setResultComponent] = useState();
   const [searchResults, setSearchResults] = useState();
+  const headers = { headers: {"authorization" : `Bearer ${token}`} }
+  const { dispatch } = useContext(AuthContext);
 
   const clear = () => {
     setSearchResults();
   }
 
+  const handleLogOut = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    logout(dispatch);
+  }
+
   const handleChange = async (e) => {
     if (e.target.value.length>0){
       const res = await axios.get(
-        "http://localhost:8800/api/users/" + e.target.value + "/search"
+        "https://comp586api.herokuapp.com/api/users/" + e.target.value + "/search", headers
       );
       console.log(res.data);
       setSearchResults(<SearchResults onBlur={clear} className="search-results" results={res.data}/>);
@@ -57,23 +66,10 @@ export default function Topbar() {
       </div>
       <div className="topbarRight">
         <div className="topbarLinks">
-          <span className="topbarLink">Homepage</span>
-          <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">
-          
+          <button onClick={handleLogOut}>Logout</button>
         </div>
-        <Link to={`/profile/${user.username}`}>
-          <img
-            src={
-              user.profilePicture
-                ? PF + user.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-            alt=""
-            className="topbarImg"
-          />
-        </Link>
       </div>
     </div>
   );

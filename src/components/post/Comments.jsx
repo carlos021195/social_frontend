@@ -8,8 +8,9 @@ import { AuthContext } from "../../context/AuthContext";
 import Input from "./Input"
 
 export default function Comments({ post, comments, getComments }) {
-    const { user: currentUser } = useContext(AuthContext);
+    const { user: currentUser, token } = useContext(AuthContext);
     const [desc, setDesc] = useState('');
+    const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -19,7 +20,7 @@ export default function Comments({ post, comments, getComments }) {
             postId: post._id,
         };
         try {
-            await axios.post("http://localhost:8800/api/comments/", newComment);
+            await axios.post("https://comp586api.herokuapp.com/api/comments/", newComment, headers);
             getComments();
         } catch (err) {
             console.log(err);

@@ -13,7 +13,8 @@ export default function Comment({ comment }) {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, token } = useContext(AuthContext);
+  const headers = { headers: {"authorization" : `Bearer ${token}`} };
 
   useEffect(() => {
     setIsLiked(comment.likes.includes(currentUser._id));
@@ -22,7 +23,7 @@ export default function Comment({ comment }) {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
-        `http://localhost:8800/api/users?userId=${comment.userId}`
+        `https://comp586api.herokuapp.com/api/users?userId=${comment.userId}`, headers
       );
       setUser(res.data);
     };
@@ -31,9 +32,10 @@ export default function Comment({ comment }) {
 
   const likeHandler = () => {
     try {
-      axios.put("http://localhost:8800/api/comments/" + comment._id + "/like", {
+      axios.put("https://comp586api.herokuapp.com/api/comments/" + comment._id + "/like", {
         userId: currentUser._id,
-      });
+      },
+      headers);
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
@@ -44,46 +46,4 @@ export default function Comment({ comment }) {
       {comment.desc}
     </div>
   );
-  // return (
-  //   <div className="comment">
-  //     <div className="commentWrapper">
-  //       <div className="commentTop">
-  //         <div className="commentTopLeft">
-  //           <Link to={`/profile/${user.username}`}>
-  //             <img
-  //               className="postProfileImg"
-  //               src={
-  //                 user.profilePicture
-  //                   ? PF + user.profilePicture
-  //                   : PF + "person/noAvatar.png"
-  //               }
-  //               alt=""
-  //             />
-  //           </Link>
-  //           <span className="commentUsername">{user.username}</span>
-  //           <span className="commentDate">{format(comment.createdAt)}</span>
-  //         </div>
-  //       </div>
-  //       <div className="commentCenter">
-  //         <span className="commentText">{comment?.desc}</span>
-  //         <img className="commentImg" src={PF + comment.img} alt="" />
-  //       </div>
-  //       <div className="commentBottom">
-  //         <div className="commentBottomLeft">
-  //           <img
-  //             className="likeIcon"
-  //             src="https://img.icons8.com/color/48/000000/filled-like.png"
-  //             onClick={likeHandler}
-  //             alt=""
-  //           />
-  //           <span className="commentLikeCounter">{like} people like it</span>
-  //         </div>
-  //         {/* might need to remove */}
-  //         <div className="commentBottomRight">
-  //           <span className="commentCommentText">{post.comment.length} comment</span>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 }

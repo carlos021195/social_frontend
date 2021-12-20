@@ -14,11 +14,12 @@ export default function Post({ post }) {
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, token } = useContext(AuthContext);
+  const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
   const getComments = async () => {
     const res = await axios.get(
-      `http://localhost:8800/api/comments/all/`+ post._id
+      `https://comp586api.herokuapp.com/api/comments/all/`+ post._id, headers
     );
     setComments(res.data);
   };
@@ -30,7 +31,7 @@ export default function Post({ post }) {
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(
-        `http://localhost:8800/api/users?userId=${post.userId}`
+        `https://comp586api.herokuapp.com/api/users?userId=${post.userId}`, headers
       );
       setUser(res.data);
     };
@@ -40,7 +41,7 @@ export default function Post({ post }) {
   useEffect(() => {
     const fetchComments = async () => {
       const res = await axios.get(
-        `http://localhost:8800/api/comments/all/`+ post._id
+        `https://comp586api.herokuapp.com/api/comments/all/`+ post._id, headers
       );
       setComments(res.data);
     };
@@ -53,34 +54,22 @@ export default function Post({ post }) {
 
   const likeHandler = () => {
     try {
-      axios.put("http://localhost:8800/api/posts/" + post._id + "/like", {
+      axios.put("https://comp586api.herokuapp.com/api/posts/" + post._id + "/like", {
         userId: currentUser._id,
-      });
+      },
+      headers);
     } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+  console.log(post.username)
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <Link to={`/profile/${user.username}`}>
-              <img
-                className="postProfileImg"
-                src={
-                  user.profilePicture
-                    ? PF + user.profilePicture
-                    : PF + "person/noAvatar.png"
-                }
-                alt=""
-              />
-            </Link>
             <span className="postUsername">{user.username}</span>
             <span className="postDate">{format(post.createdAt)}</span>
-          </div>
-          <div className="postTopRight">
-            <MoreVert />
           </div>
         </div>
         <div className="postCenter">

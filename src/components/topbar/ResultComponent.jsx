@@ -4,15 +4,17 @@ import { AuthContext } from "../../context/AuthContext";
 import "./resultComponent.css"
 
 export default function ResultComponent({ result }) {
-    const { user } = useContext(AuthContext);
+    const { user, token } = useContext(AuthContext);
+    const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
     const handleFollow = async () => {
         try {
             const res = await axios.put(
-                "http://localhost:8800/api/users/" + result._id + "/follow",
+                "https://comp586api.herokuapp.com/api/users/" + result._id + "/follow",
                 {
                     userId: user._id
-                }
+                },
+                headers
             );
             console.log(res)
         } catch (error) {
@@ -23,10 +25,11 @@ export default function ResultComponent({ result }) {
     const handleUnfollow = async () => {
         try {
             const res = await axios.put(
-                "http://localhost:8800/api/users/" + result._id + "/unfollow",
+                "https://comp586api.herokuapp.com/api/users/" + result._id + "/unfollow",
                 {
                     userId: user._id
-                }
+                },
+                headers
             );
             console.log(res.status)
         } catch (error) {
