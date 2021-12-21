@@ -2,7 +2,6 @@ import axios from "axios";
 import { useRef } from "react";
 import "./register.css";
 import { useHistory } from "react-router-dom";
-import { InsertDriveFileRounded } from "@material-ui/icons";
 
 export default function Register() {
   const username = useRef();
