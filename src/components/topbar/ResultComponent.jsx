@@ -20,7 +20,7 @@ export default function ResultComponent({ result, getPosts }) {
         } catch (error) {
             
         }
-        getPosts()
+        getPosts();
     }
 
     const handleUnfollow = async () => {
@@ -36,7 +36,7 @@ export default function ResultComponent({ result, getPosts }) {
         } catch (error) {
             
         }
-        getPosts()
+        getPosts();
     }
 
     return (

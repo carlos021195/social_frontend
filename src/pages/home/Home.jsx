@@ -11,9 +11,8 @@ export default function Home() {
   const headers = { headers: {"authorization" : `Bearer ${token}`} }
 
   const getPosts = async () => {
-    const res = user.username
-        ? await axios.get("https://comp586api.herokuapp.com/api/posts/profile/" + user.username, headers)
-        : await axios.get(
+    const res = 
+        await axios.get(
             "https://comp586api.herokuapp.com/api/posts/timeline/" + user._id, headers
           );
     setPosts(
