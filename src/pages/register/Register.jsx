@@ -23,7 +23,7 @@ export default function Register() {
     else {
       const user = {
         username: username.current.value,
-        email: email.current.value,
+        email: email.current.value.toLowerCase(),
         password: password.current.value,
       };
       try {
