@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRef } from "react";
 import "./register.css";
 import { useHistory } from "react-router-dom";
+import { InsertDriveFileRounded } from "@material-ui/icons";
 
 export default function Register() {
   const username = useRef();
@@ -12,19 +13,25 @@ export default function Register() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    const password1=document.getElementsByClassName('passwordInput2')[0];
     if (passwordAgain.current.value !== password.current.value) {
-      passwordAgain.current.setCustomValidity("Passwords don't match!");
-    } else {
+      alert("Passwords don't match!");
+    } 
+    else if (!password.current.value.match("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$")) {
+      alert("Password must contain at least one letter and number")
+    }
+    else {
       const user = {
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
       };
       try {
-        await axios.post("https://comp586api.herokuapp.com/api/auth/register", user);
+        const res = await axios.post("https://comp586api.herokuapp.com/api/auth/register", user);
         history.push("/login");
       } catch (err) {
         console.log(err);
+        alert("username or email already taken");
       }
     }
   };
@@ -61,7 +68,7 @@ export default function Register() {
               placeholder="Password"
               required
               ref={password}
-              className="loginInput"
+              className="loginInput passwordInput1"
               type="password"
               minLength="6"
             />
@@ -69,8 +76,9 @@ export default function Register() {
               placeholder="Password Again"
               required
               ref={passwordAgain}
-              className="loginInput"
+              className="loginInput passwordInput2"
               type="password"
+              minLength="6"
             />
             <button className="loginButton" type="submit">
               Sign Up
